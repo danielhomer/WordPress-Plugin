@@ -98,6 +98,8 @@ class Purgely_Surrogate_Key_Collection
             $date_keys
         );
 
+	    $keys = apply_filters( 'fastly_surrogate_keys', $keys, $wp_query );
+
         $keys = array_unique($keys);
         $keys = array_filter($keys);
 
