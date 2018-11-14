@@ -50,7 +50,6 @@ class Purgely_Purge
      */
     public function purge($type = self::URL, $thing = '')
     {
-
         if (!in_array($type, self::get_purge_types())) {
             return false;
         }
