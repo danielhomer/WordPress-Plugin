@@ -41,7 +41,7 @@ class Purgely_Purges
     public function maybe_send_purge() {
     	$collections = apply_filters( 'fastly_purge_collections', [] );
 
-    	if ( current_user_can( 'publish_posts' ) && ! empty( $collections ) ) {
+    	if ( ( current_user_can( 'publish_posts' ) && ! empty( $collections ) ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 		    $purgely = new Purgely_Purge();
 		    foreach ($collections as $collection) {
 			    $purgely->purge('key-collection', $collection);
