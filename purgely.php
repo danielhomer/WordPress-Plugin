@@ -133,7 +133,7 @@ class Purgely
      */
     public function __construct()
     {
-        self::$instance = $this;
+		self::$instance = $this;
 
         // Set the main paths for the plugin.
         $this->root_dir = dirname(__FILE__);

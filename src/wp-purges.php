@@ -34,6 +34,19 @@ class Purgely_Purges
         foreach ($this->_purge_actions() as $action) {
             add_action($action, array($this, 'purge'), 10, 1);
         }
+        
+        add_action( 'shutdown', [ $this, 'maybe_send_purge' ], 100 ); // Purge requests should be the last thing WP does
+    }
+
+    public function maybe_send_purge() {
+    	$collections = apply_filters( 'fastly_purge_collections', [] );
+
+    	if ( ( current_user_can( 'publish_posts' ) && ! empty( $collections ) ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+		    $purgely = new Purgely_Purge();
+		    foreach ($collections as $collection) {
+			    $purgely->purge('key-collection', $collection);
+		    }
+	    }
     }
 
     /**
@@ -61,10 +74,9 @@ class Purgely_Purges
         $related_collection_object = new Purgely_Related_Surrogate_Keys($post_id);
         $collections = $related_collection_object->locate_all();
 
-        $purgely = new Purgely_Purge();
-        foreach ($collections as $collection) {
-            $purgely->purge('key-collection', $collection);
-        }
+        add_filter( 'fastly_purge_collections', function( $c ) use ( $collections ) {
+        	return array_merge( $c, $collections );
+        }, 10, 1 );
     }
 
     /**
