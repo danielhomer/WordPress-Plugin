@@ -56,7 +56,10 @@ class Purgely_Purges {
 	 */
 	public function purge( $post_id ) {
 
-		if ( ! in_array( get_post_status( $post_id ), [ 'publish', 'trash', 'future', 'draft' ] ) ) {
+		if (
+			wp_doing_ajax() ||
+			! in_array( get_post_status( $post_id ), [ 'publish', 'trash', 'future', 'draft' ] )
+		) {
 			return;
 		}
 
