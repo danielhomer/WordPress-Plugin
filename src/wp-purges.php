@@ -63,14 +63,17 @@ class Purgely_Purges {
 			return;
 		}
 
+		/**
 		// Check credentials
 		$fastly_hostname = Purgely_Settings::get_setting( 'fastly_api_hostname' );
 		$fastly_service_id = Purgely_Settings::get_setting( 'fastly_service_id' );
 		$fastly_api_key = Purgely_Settings::get_setting( 'fastly_api_key' );
+
 		$test = test_fastly_api_connection( $fastly_hostname, $fastly_service_id, $fastly_api_key );
 		if ( ! $test['status'] ) {
 			return;
 		}
+		 */
 
 		$related_collection_object = new Purgely_Related_Surrogate_Keys( $post_id );
 		$collections = $related_collection_object->locate_all();
