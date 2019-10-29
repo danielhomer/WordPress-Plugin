@@ -68,14 +68,6 @@ class Vcl_Handler
         $this->_service_id = purgely_get_option('fastly_service_id');
         $this->_api_key = purgely_get_option('fastly_api_key');
 
-		/**
-        $connection = test_fastly_api_connection($this->_hostname, $this->_service_id, $this->_api_key);
-        if (!$connection['status']) {
-            $this->add_error(__($connection['message']));
-            return;
-        }
-		 */
-
         // Set credentials based data (API url, headers, last version)
         $this->_version_base_url = trailingslashit($this->_hostname) . 'service/' . $this->_service_id . '/version';
         $this->_headers_get = array(
@@ -88,13 +80,6 @@ class Vcl_Handler
             'Content-Type' => 'application/x-www-form-urlencoded'
         );
 
-        /**
-        $this->_last_version_data = $this->get_last_version();
-
-        if ($this->_last_version_data) {
-            $this->_last_active_version_num = $this->_last_version_data->number;
-        }
-         */
         $this->_last_version_data = false;
 
         if(!$this->_last_cloned_version) {
